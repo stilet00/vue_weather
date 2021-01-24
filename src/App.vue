@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app"
+  :class="typeof weather.main != 'undefined' && Math.round(weather.main.temp - 273.15) > 16 ?
+  'warm':''"
+  >
     <main>
       <div class="search-box">
         <input
@@ -10,6 +13,9 @@
                 @keypress="fetchWeather"
         >
       </div>
+      <button class="border-button"
+      @click="fetchWeather"
+      >Search weather</button>
       <div class="weather-wrap"
       v-if="typeof weather.main != 'undefined'"
       >
@@ -38,26 +44,52 @@ export default {
       url: 'https://api.openweathermap.org/data/2.5/',
       query: '',
       date: '',
-      weather: {}
+      weather: {},
     }
   },
   methods: {
     fetchWeather(e) {
       if (e.key === "Enter") {
+
+        this.hideWeatherWrap();
         fetch(`${this.url}weather?q=${this.query}&appid=${this.api}`)
         .then(res => {
           if (res.ok && res.status === 200) return res.json()
         })
-        .then(res => {this.setResults(res); this.getDate()})
+        .then(res => {this.setResults(res); this.getDate(), setTimeout(this.animate, 500)})
         .catch(err => alert(err))
       }
+    },
+    hideWeatherWrap() {
+      if (document.querySelector('.weather-wrap')) {
+        document.querySelector('.weather-wrap').style.opacity = 0;
+      }
+
     },
     setResults(response) {
       this.weather = response
     },
     getDate() {
       let date = new Date();
-      this.date = `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`
+      let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
+      this.date = `${date.getDate()}.${month}.${date.getFullYear()}`
+    },
+    animate() {
+      let div = document.querySelector('.weather-wrap');
+      let start = Date.now();
+      let timer = setInterval(function() {
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 2000) {
+          clearInterval(timer);
+          return;
+        }
+        appear(timePassed);
+
+      }, 10);
+      function appear(timePassed) {
+        div.style.opacity = timePassed / 2000;
+      }
     }
   },
   components: {
@@ -76,11 +108,71 @@ export default {
     box-sizing: border-box;
   }
   #app {
-    background-image: url('./assets/warm.jpg');
+    /*opacity: 0;*/
+    background-image: url('./assets/cold.jpg');
     background-size: cover;
     background-position: center;
     transition: 0.4s;
 
+  }
+  #app.warm {
+    background-image: url('./assets/warm.jpg');
+  }
+  .border-button {
+    outline:none;
+    width: 50%;
+    margin-top: -20px;
+    border-radius: 0 10px 0 10px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 20px 30px;
+    position: relative;
+    color: #313131;
+    border: 1px solid rgba(255, 255, 255, .4);
+    background: rgba(255, 255, 255, 0.5);
+    font-weight: 300;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .border-button:before, .border-button:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    box-sizing: border-box;
+  }
+  .border-button:before {
+    bottom: 0;
+    left: 0;
+    border-radius: 0 10px 0 10px;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    transition: 0s ease opacity .8s, .2s ease width .4s, .2s ease height .6s;
+  }
+  .border-button:after {
+    top: 0;
+    right: 0;
+    border-radius: 0 10px 0 10px;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    transition: 0s ease opacity .4s, .2s ease width, .2s ease height .2s;
+  }
+  .border-button:hover:before,
+  .border-button:hover:after {
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+  }
+  .border-button:hover:before {
+    transition: 0s ease opacity 0s, .2s ease height, .2s ease width .2s;
+  }
+  .border-button:hover:after {
+    transition: 0s ease opacity .4s, .2s ease height .4s, .2s ease width .6s;
+  }
+  .border-button:hover {
+    background: rgba(255, 255, 255, .2);
   }
   main {
     min-height: 100vh;
@@ -149,4 +241,9 @@ export default {
     font-style: italic;
     text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
   }
+  .weather-wrap {
+    opacity: 0;
+    margin-top: 20px;
+  }
+
 </style>
