@@ -14,6 +14,7 @@
         >
       </div>
       <button class="border-button"
+              id="search"
       @click="fetchWeather"
       >Search weather</button>
       <div class="weather-wrap"
@@ -49,7 +50,8 @@ export default {
   },
   methods: {
     fetchWeather(e) {
-      if (e.key === "Enter") {
+
+      if (e.key === "Enter" || e.target.id === 'search') {
 
         this.hideWeatherWrap();
         fetch(`${this.url}weather?q=${this.query}&appid=${this.api}`)
