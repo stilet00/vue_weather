@@ -54,12 +54,12 @@ export default {
       if (e.key === "Enter" || e.target.id === 'search') {
 
         this.hideWeatherWrap();
-        fetch(`${this.url}weather?q=${this.query}&appid=${this.api}`)
+        fetch(`${this.url}weather?q=${this.query.trim()}&appid=${this.api}`)
         .then(res => {
           if (res.ok && res.status === 200) return res.json()
         })
-        .then(res => {this.setResults(res); this.getDate(), setTimeout(this.animate, 500)})
-        .catch(err => alert(err))
+        .then(res => {this.setResults(res); this.getDate(), this.clearBar(), setTimeout(this.animate, 500)})
+        .catch(err => {alert(err); this.clearBar()})
       }
     },
     hideWeatherWrap() {
@@ -75,6 +75,9 @@ export default {
       let date = new Date();
       let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
       this.date = `${date.getDate()}.${month}.${date.getFullYear()}`
+    },
+    clearBar() {
+      this.query = '';
     },
     animate() {
       let div = document.querySelector('.weather-wrap');
