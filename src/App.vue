@@ -8,7 +8,7 @@
         <input
                 type="text"
                 class="search-bar"
-                placeholder="Search..."
+                placeholder="Enter city..."
                 v-model="query"
                 @keypress="fetchWeather"
         >
@@ -112,6 +112,7 @@ export default {
     padding: 0;
     box-sizing: border-box;
   }
+
   #app {
     /*opacity: 0;*/
     background-image: url('./assets/cold.jpg');
