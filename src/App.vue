@@ -12,6 +12,9 @@
                 v-model="query"
                 @keypress="fetchWeather"
         >
+        <Error
+                v-if="this.showAlert"
+        />
       </div>
       <button class="border-button"
               id="search"
@@ -37,6 +40,7 @@
 
 <script>
 
+import Error from "@/components/Error";
 export default {
   name: 'App',
   data () {
@@ -46,20 +50,31 @@ export default {
       query: '',
       date: '',
       weather: {},
+      showAlert: false
     }
   },
   methods: {
     fetchWeather(e) {
 
       if (e.key === "Enter" || e.target.id === 'search') {
+       if (!this.query.trim()) {
+          this.showAlert = true;
+          setTimeout(()=>{this.showAlert=false}, 1000);
+        } else {
+         this.hideWeatherWrap();
+         fetch(`${this.url}weather?q=${this.query.trim()}&appid=${this.api}`)
+                 .then((res) => {
+                   if (res.ok && res.status === 200) {
+                     return res.json();
+                   } else {
+                     return Promise.reject(res.status);
+                   }
+                 })
+                 .then(res => {this.setResults(res); this.getDate(), this.clearBar(), setTimeout(this.animate, 500)})
+                 .catch(() => {this.clearBar(); this.showAlert = true;
+                   setTimeout(()=>{this.showAlert=false}, 1000);})
+       }
 
-        this.hideWeatherWrap();
-        fetch(`${this.url}weather?q=${this.query.trim()}&appid=${this.api}`)
-        .then(res => {
-          if (res.ok && res.status === 200) return res.json()
-        })
-        .then(res => {this.setResults(res); this.getDate(), this.clearBar(), setTimeout(this.animate, 500)})
-        .catch(err => {alert(err); this.clearBar()})
       }
     },
     hideWeatherWrap() {
@@ -98,6 +113,7 @@ export default {
     }
   },
   components: {
+    Error
 
   }
 }
@@ -154,7 +170,7 @@ export default {
     border-radius: 0 10px 0 10px;
     border-left: 1px solid white;
     border-top: 1px solid white;
-    transition: 0s ease opacity .8s, .2s ease width .4s, .2s ease height .6s;
+    transition: .2s ease height .6s;
   }
   .border-button:after {
     top: 0;
@@ -162,7 +178,7 @@ export default {
     border-radius: 0 10px 0 10px;
     border-right: 1px solid white;
     border-bottom: 1px solid white;
-    transition: 0s ease opacity .4s, .2s ease width, .2s ease height .2s;
+    transition: .2s ease height .2s;
   }
   .border-button:hover:before,
   .border-button:hover:after {
@@ -171,10 +187,10 @@ export default {
     opacity: 1;
   }
   .border-button:hover:before {
-    transition: 0s ease opacity 0s, .2s ease height, .2s ease width .2s;
+    transition: .2s ease width .2s;
   }
   .border-button:hover:after {
-    transition: 0s ease opacity .4s, .2s ease height .4s, .2s ease width .6s;
+    transition: .2s ease width .6s;
   }
   .border-button:hover {
     background: rgba(255, 255, 255, .2);
