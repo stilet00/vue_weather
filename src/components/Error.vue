@@ -18,9 +18,14 @@
 
 <style scoped>
     h1 {
-        color: whitesmoke;
-        font-style: italic;
-        text-shadow: 1px 3px rgba(0, 0, 0 0.25);
+        color: white;
+        font-weight: 300;
+        font-size: 20px;
+        font-family: 'Montserrat', sans-serif;
+        /*text-transform: uppercase;*/
+        position: absolute;
+        bottom: -25px;
+        right: 10px;
     }
     .slide-fade-enter-active {
         transition: all 1s ease;
@@ -29,11 +34,9 @@
         transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
     .slide-fade-enter {
-        transform: translateX(1000px);
         opacity: 0;
     }
     .slide-fade-leave-to {
-        transform: translateX(-200px);
         opacity: 0;
     }
 </style>

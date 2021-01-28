@@ -220,6 +220,7 @@ export default {
   .search-box {
     width: 100%;
     margin-bottom: 30px;
+    position: relative;
   }
   .search-box .search-bar {
     display: block;
