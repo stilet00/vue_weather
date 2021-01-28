@@ -16,10 +16,21 @@
                 v-if="this.showAlert"
         />
       </div>
+      <transition appear name="slideUp">
       <button class="border-button"
               id="search"
       @click="fetchWeather"
       >Search weather</button>
+      </transition>
+      <transition appear name="slideUp">
+      <Options />
+      </transition>
+      <transition appear name="slideUp">
+      <Button3 />
+      </transition>
+        <transition appear name="slideUp">
+      <Button4 />
+        </transition>
       <div class="weather-wrap"
       v-if="typeof weather.main != 'undefined'"
       >
@@ -41,6 +52,9 @@
 <script>
 
 import Error from "@/components/Error";
+import Options from "@/components/Options";
+import Button3 from "@/components/Button3";
+import Button4 from "@/components/Button4";
 export default {
   name: 'App',
   data () {
@@ -113,6 +127,9 @@ export default {
     }
   },
   components: {
+    Button4,
+    Button3,
+    Options,
     Error
 
   }
@@ -266,5 +283,11 @@ export default {
     opacity: 0;
     margin-top: 20px;
   }
-
+  .slideUp-enter-active {
+    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slideUp-enter {
+    transform: translateY(500px);
+    opacity: 0;
+  }
 </style>
