@@ -5,13 +5,16 @@
   >
     <main>
       <div class="search-box">
-        <input
-                type="text"
-                class="search-bar"
-                placeholder="Enter city..."
-                v-model="query"
-                @keypress="fetchWeather"
-        >
+        <transition appear name="slideRight">
+          <input
+                  type="text"
+                  class="search-bar"
+                  placeholder="Enter city..."
+                  v-model="query"
+                  @keyup.enter="fetchWeather"
+          >
+        </transition>
+
         <Error
                 v-if="this.showAlert"
         />
@@ -22,15 +25,15 @@
       @click="fetchWeather"
       >Search weather</button>
       </transition>
-<!--      <transition appear name="slideUp">-->
-<!--      <Options />-->
-<!--      </transition>-->
-<!--      <transition appear name="slideUp">-->
-<!--      <Button3 />-->
-<!--      </transition>-->
-<!--        <transition appear name="slideUp">-->
-<!--      <Button4 />-->
-<!--        </transition>-->
+      <transition appear name="slideUp">
+      <Options />
+      </transition>
+      <transition appear name="slideUp">
+      <Button3 />
+      </transition>
+        <transition appear name="slideUp">
+      <Button4 />
+        </transition>
       <div class="weather-wrap"
       v-if="typeof weather.main != 'undefined'"
       >
@@ -52,9 +55,9 @@
 <script>
 
 import Error from "@/components/Error";
-// import Options from "@/components/Options";
-// import Button3 from "@/components/Button3";
-// import Button4 from "@/components/Button4";
+import Options from "@/components/Options";
+import Button3 from "@/components/Button3";
+import Button4 from "@/components/Button4";
 export default {
   name: 'App',
   data () {
@@ -106,7 +109,7 @@ export default {
       this.date = `${date.getDate()}.${month}.${date.getFullYear()}`
     },
     clearBar() {
-      this.query = '';
+      this.query = null;
     },
     animate() {
       let div = document.querySelector('.weather-wrap');
@@ -127,9 +130,9 @@ export default {
     }
   },
   components: {
-    // Button4,
-    // Button3,
-    // Options,
+    Button4,
+    Button3,
+    Options,
     Error
 
   }
@@ -290,6 +293,13 @@ export default {
   }
   .slideUp-enter {
     transform: translateY(500px);
+    opacity: 0;
+  }
+  .slideRight-enter-active {
+    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slideRight-enter {
+    transform: translateX(1000px);
     opacity: 0;
   }
 </style>
