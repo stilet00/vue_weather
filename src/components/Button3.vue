@@ -13,6 +13,9 @@
 </script>
 
 <style scoped>
+    .border-button {
+        width: 48%;
+    }
     .options-container {
         margin-top: 20px;
     }

@@ -26,7 +26,7 @@
       >Search weather</button>
       </transition>
       <transition appear name="slideUp">
-      <Options />
+      <Radio />
       </transition>
       <transition appear name="slideUp">
       <Button3 />
@@ -49,13 +49,17 @@
         </div>
       </div>
     </main>
+    <footer>
+      <i>Made by Stilet @ 2021</i>
+    </footer>
   </div>
+
 </template>
 
 <script>
 
 import Error from "@/components/Error";
-import Options from "@/components/Options";
+import Radio from "@/components/Radio";
 import Button3 from "@/components/Button3";
 import Button4 from "@/components/Button4";
 export default {
@@ -132,7 +136,7 @@ export default {
   components: {
     Button4,
     Button3,
-    Options,
+    Radio,
     Error
 
   }
@@ -159,6 +163,13 @@ export default {
   }
   #app.warm {
     background-image: url('./assets/warm.jpg');
+  }
+  footer {
+    position: absolute;
+    bottom: 20px;
+    color: white;
+    right: 20px;
+    font-size: 10px;
   }
   .border-button {
     outline:none;
