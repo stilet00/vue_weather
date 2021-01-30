@@ -20,6 +20,6 @@
         margin-top: 20px;
     }
     .slideUp-enter-active {
-        transition-delay: 1.5s;
+        transition-delay: 0.4s;
     }
 </style>

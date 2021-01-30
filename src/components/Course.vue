@@ -2,16 +2,19 @@
     <div class="options-container">
         <button class="border-button"
             @click="showRadioList"
-        >Online radio
+        >Currency rate
 
         </button>
         <div class="radios" v-if="showRadio">
             <transition name="firstRadio" appear>
-                <a class="sq-btn btn-one" href="" @click.prevent="runHitFm">HIT FM</a>
+                <a class="sq-btn btn-one" href="" @click.prevent="getCourse" v-if="courseUSD">{{ courseUSD }}</a>
+
             </transition>
+            <div class="lds-dual-ring" v-if="!courseUSD || !courseEUR"></div>
             <transition name="secondRadio" appear>
-            <a class="sq-btn" href="">LUX FM</a>
+            <a class="sq-btn" href="" v-if="courseEUR"> {{ courseEUR }}</a>
             </transition>
+
         </div>
 
 
@@ -24,15 +27,33 @@
         name: "Options",
         data() {
             return {
-                showRadio: true,
+                showRadio: false,
+                courseUSD: null,
+                courseEUR: null
 
             }
         },
         methods: {
             showRadioList() {
-                this.showRadio = !this.showRadio
+                this.showRadio = !this.showRadio;
+                if (!this.courseUSD) {
+                    setTimeout(this.getCourse, 2000);
+                }
+                this.courseUSD = null;
+                this.courseEUR = null;
             },
-            runHitFm() {
+            getCourse() {
+                let promise = fetch(' https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
+                promise.then(res => {
+                    if (res.ok && res.status === 200) {
+                        return res.json()
+                    }
+                })
+                .then(res => {
+                    this.courseUSD = `${res[0].ccy} / ${res[0].base_ccy} : ${res[0].buy} / ${res[0].sale}`;
+                    this.courseEUR = `${res[1].ccy} / ${res[1].base_ccy} : ${res[1].buy} / ${res[1].sale}`;
+                })
+                .catch(err => console.log(err))
 
             }
         }
@@ -54,7 +75,7 @@
      margin-top: 20px;
  }
  .slideUp-enter-active {
-     transition-delay: 0.5s;
+     transition-delay: 0.2s;
  }
 
     /* radio style */
@@ -141,6 +162,32 @@
         transform: rotate(-360deg);
         opacity: 0;
     }
+    .lds-dual-ring {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        color: white;
+    }
+    .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+    @keyframes lds-dual-ring {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
 
 
 

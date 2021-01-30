@@ -26,7 +26,7 @@
       >Search weather</button>
       </transition>
       <transition appear name="slideUp">
-      <Radio />
+      <Course />
       </transition>
       <transition appear name="slideUp">
       <Button3 />
@@ -59,7 +59,7 @@
 <script>
 
 import Error from "@/components/Error";
-import Radio from "@/components/Radio";
+import Course from "@/components/Course";
 import Button3 from "@/components/Button3";
 import Button4 from "@/components/Button4";
 export default {
@@ -136,7 +136,7 @@ export default {
   components: {
     Button4,
     Button3,
-    Radio,
+    Course,
     Error
 
   }
@@ -300,7 +300,7 @@ export default {
     margin-top: 20px;
   }
   .slideUp-enter-active {
-    transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.7s ease;
   }
   .slideUp-enter {
     transform: translateY(500px);
