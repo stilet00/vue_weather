@@ -29,11 +29,13 @@
       <Course />
       </transition>
       <transition appear name="slideUp">
-      <Button3 />
+      <Button3
+      @astroClicked="showAstro"
+      />
       </transition>
-        <transition appear name="slideUp">
-      <Button4 />
-        </transition>
+<!--        <transition appear name="slideUp">-->
+<!--      <Button4 />-->
+<!--        </transition>-->
       <div class="weather-wrap"
       v-if="typeof weather.main != 'undefined'"
       >
@@ -46,6 +48,14 @@
             {{Math.round(weather.main.temp - 273.15)}}° C
           </div>
           <div class="weather">{{weather.weather[0].main}}</div>
+        </div>
+      </div>
+      <div class="space-wrap"
+           v-if="this.spaceInfo"
+      >
+        <div class="location-box">
+          <div class="location">{{spaceInfo.title }}</div>
+          <div class="date">{{spaceInfo.explanation}}</div>
         </div>
       </div>
     </main>
@@ -61,7 +71,7 @@
 import Error from "@/components/Error";
 import Course from "@/components/Course";
 import Button3 from "@/components/Button3";
-import Button4 from "@/components/Button4";
+// import Button4 from "@/components/Button4";
 export default {
   name: 'App',
   data () {
@@ -71,17 +81,19 @@ export default {
       query: '',
       date: '',
       weather: {},
-      showAlert: false
+      showAlert: false,
+      spaceInfo: null,
     }
   },
   methods: {
     fetchWeather(e) {
 
       if (e.key === "Enter" || e.target.id === 'search') {
-       if (!this.query.trim()) {
+       if (!this.query) {
           this.showAlert = true;
           setTimeout(()=>{this.showAlert=false}, 1000);
         } else {
+         this.clearAstro();
          this.hideWeatherWrap();
          fetch(`${this.url}weather?q=${this.query.trim()}&appid=${this.api}`)
                  .then((res) => {
@@ -115,6 +127,10 @@ export default {
     clearBar() {
       this.query = null;
     },
+    clearAstro() {
+      this.spaceInfo = null;
+      document.querySelector('#app').style.backgroundImage = '';
+    },
     animate() {
       let div = document.querySelector('.weather-wrap');
       let start = Date.now();
@@ -131,10 +147,21 @@ export default {
       function appear(timePassed) {
         div.style.opacity = timePassed / 2000;
       }
+    },
+    showAstro(data) {
+      if (!this.spaceInfo) {
+        this.spaceInfo = data.astroData;
+        this.weather = {};
+        this.clearBar();
+        document.querySelector('#app').style.backgroundImage = `url(${data.astroData.hdurl})`;
+      } else {
+        this.clearAstro();
+      }
+
     }
   },
   components: {
-    Button4,
+    // Button4,
     Button3,
     Course,
     Error
@@ -297,6 +324,9 @@ export default {
   }
   .weather-wrap {
     opacity: 0;
+    margin-top: 20px;
+  }
+  .space-wrap {
     margin-top: 20px;
   }
   .slideUp-enter-active {

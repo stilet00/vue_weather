@@ -37,7 +37,7 @@
             showRadioList() {
                 this.showRadio = !this.showRadio;
                 if (!this.courseUSD) {
-                    setTimeout(this.getCourse, 2000);
+                    setTimeout(this.getCourse, 1000);
                 }
                 this.courseUSD = null;
                 this.courseEUR = null;
@@ -50,8 +50,8 @@
                     }
                 })
                 .then(res => {
-                    this.courseUSD = `${res[0].ccy} / ${res[0].base_ccy} : ${res[0].buy} / ${res[0].sale}`;
-                    this.courseEUR = `${res[1].ccy} / ${res[1].base_ccy} : ${res[1].buy} / ${res[1].sale}`;
+                    this.courseUSD = `${res[0].ccy} / ${res[0].base_ccy} : ${(Number(res[0].buy).toFixed(2))} / ${(Number(res[0].sale).toFixed(2))}`;
+                    this.courseEUR = `${res[1].ccy} / ${res[1].base_ccy} : ${(Number(res[1].buy).toFixed(2))} / ${(Number(res[1].buy).toFixed(2))}`;
                 })
                 .catch(err => console.log(err))
 

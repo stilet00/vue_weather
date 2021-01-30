@@ -1,14 +1,29 @@
 <template>
     <div class="options-container">
         <button class="border-button"
-
-        >More options</button>
+            @click="getAstro"
+        >Astronomical picture</button>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Button3"
+        name: "Button3",
+        methods: {
+            getAstro() {
+                let promise = fetch('https://api.nasa.gov/planetary/apod?api_key=QMNA5qFk5XAuTguxFgCM4pGTdmqA5a227eUqVH7S');
+                promise
+                    .then(res => {
+                    if (res.ok && res.status === 200) {
+                        return res.json()
+                    }
+                })
+                .then(res => this.$emit('astroClicked', {
+                    astroData: res
+                }))
+                .catch(err => console.log(err))
+            }
+        }
     }
 </script>
 
