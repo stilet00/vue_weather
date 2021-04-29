@@ -1,22 +1,21 @@
-let express = require('express');
-let bodyParser = require('body-parser');
-let rootURL = '/';
+let express = require("express");
+let bodyParser = require("body-parser");
+let rootURL = "/";
 const PORT = process.env.PORT || 80;
 
 let app = express();
 
-let fs = require('fs').promises;
+let fs = require("fs").promises;
 app.use(express.static(__dirname + "/dist"));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extented: true}));
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    next();
-})
-
+app.use(bodyParser.urlencoded({ extented: true }));
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "origin, content-type, accept");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  next();
+});
 
 // app.get(rootURL, function(req, res) {
 //     fs.readFile(__dirname + "/index.html")
@@ -78,7 +77,5 @@ app.use(function(req, res, next) {
 //     })
 // })
 app.listen(PORT, () => {
-    console.log('API started at port', PORT);
+  console.log("API started at port", PORT);
 });
-
-
