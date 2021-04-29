@@ -262,4 +262,10 @@ ul {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 400px) {
+  .currency-label {
+    margin-left: 28px;
+  }
+}
 </style>
