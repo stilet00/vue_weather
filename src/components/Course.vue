@@ -71,7 +71,7 @@ export default {
           ).toFixed(2)} / ${Number(res[0].sale).toFixed(2)}`;
           this.courseEUR = `${res[1].ccy} / ${res[1].base_ccy} : ${Number(
             res[1].buy
-          ).toFixed(2)} / ${Number(res[1].buy).toFixed(2)}`;
+          ).toFixed(2)} / ${Number(res[1].sale).toFixed(2)}`;
           this.crossCourse = Number(res[0].buy) / Number(res[1].buy);
         })
         .catch((err) => console.log(err));
