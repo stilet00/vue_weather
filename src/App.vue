@@ -158,9 +158,10 @@ export default {
         this.spaceInfo = data.astroData;
         this.weather = {};
         this.clearBar();
+        console.log(data)
         document.querySelector(
           "#app"
-        ).style.backgroundImage = `url(${data.astroData.hdurl})`;
+        ).style.backgroundImage = `url(${data.astroData.url})`;
       } else {
         this.clearAstro();
       }

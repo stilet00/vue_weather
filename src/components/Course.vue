@@ -25,10 +25,13 @@
         @input="calculateCrossCourse"
         name="usd"
       /><span class="currency-label">usd</span>
-      <input type="text" class="course" v-model="calculateEur" @input="calculateCrossCourse" name="euro"/><span
-        class="currency-label"
-        >eur</span
-      >
+      <input
+        type="text"
+        class="course"
+        v-model="calculateEur"
+        @input="calculateCrossCourse"
+        name="euro"
+      /><span class="currency-label">eur</span>
     </div>
   </div>
 </template>
@@ -81,24 +84,23 @@ export default {
       this.calculateEur = 0;
     },
     calculateCrossCourse(e) {
-      if (e.target.name === 'usd') {
+      if (e.target.name === "usd") {
         this.calculateUsd[0] === "0"
-            ? (this.calculateUsd = this.calculateUsd.slice(1))
-            : !isNaN(Number(this.calculateUsd))
-            ? (this.calculateEur = Math.floor(
-                Number(this.calculateUsd) * this.crossCourse
+          ? (this.calculateUsd = this.calculateUsd.slice(1))
+          : !isNaN(Number(this.calculateUsd))
+          ? (this.calculateEur = Math.floor(
+              Number(this.calculateUsd) * this.crossCourse
             ))
-            : this.setToZero();
+          : this.setToZero();
       } else {
         this.calculateEur[0] === "0"
-            ? (this.calculateEur = this.calculateEur.slice(1))
-            : !isNaN(Number(this.calculateEur))
-            ? (this.calculateUsd = Math.ceil(
-                Number(this.calculateEur) / this.crossCourse
+          ? (this.calculateEur = this.calculateEur.slice(1))
+          : !isNaN(Number(this.calculateEur))
+          ? (this.calculateUsd = Math.ceil(
+              Number(this.calculateEur) / this.crossCourse
             ))
-            : this.setToZero();
+          : this.setToZero();
       }
-
     },
   },
 };
