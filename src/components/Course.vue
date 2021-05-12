@@ -135,8 +135,10 @@ ul {
   display: inline-block;
   position: relative;
   min-width: 178px;
-  margin: 6px 10px 6px 28px;
+  margin: -10px 10px 10px 28px;
   padding: 10px 40px;
+  border: 1px solid white;
+  border-radius: 0 10px 0 10px;
   font-weight: 800;
   font-family: sans-serif;
   font-size: 17px;
@@ -148,6 +150,11 @@ ul {
   transition: 0.15s ease-out;
   box-sizing: border-box;
   text-decoration: none;
+}
+.course:focus {
+  box-shadow: 5px 5px 0px 8px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 16px 0px 16px 0px;
 }
 .currency-info {
   margin: 10px 5%;
